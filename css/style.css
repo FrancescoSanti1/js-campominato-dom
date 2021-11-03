@@ -6,6 +6,8 @@
 
 header {
     height: 100px;
+    padding: 10px 0;
+    text-align: center;
 }
 
 main {
@@ -17,6 +19,7 @@ main {
     flex-wrap: wrap;
     align-content: flex-start;
     margin: 0 auto;
+    padding: 30px 0;
     width: 600px;
     height: 600px;
 }
@@ -53,4 +56,10 @@ main {
 
 .cella.bomba.cliccata {
     background-color: brown;
+}
+
+#punteggio-finale {
+    height: 100px;
+    font-size: 20px;
+    text-align: center;
 }

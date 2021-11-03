@@ -51,6 +51,8 @@ if (difficoltaUtente === "facile") {
 // Siccome devo ripetere le stesse istruzioni, creo una funzione per generare il campo minato
 function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
 
+    let contatoreClick = 0;
+
     // creo un ciclo per:
     for (let i = 1; i <= numCelle; i++) {
 
@@ -70,7 +72,7 @@ function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
 
             // se la casella cliccata fa parte della lista delle bombe,
             if (arrayBombe.includes(i)) {
-                
+
                 // allora seleziono tutti i div che hanno la classe bomba e gli assegno la classe cliccata
                 let mostraBombe = document.querySelectorAll(".bomba");
                 console.log("mostraBombe selezione:", mostraBombe);
@@ -78,10 +80,23 @@ function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
                 for (let j = 0; j < mostraBombe.length; j++) {
                     mostraBombe[j].classList.add("cliccata");
                 }
+
+                // visto che è stata cliccata la casella con la bomba, scrivo il messaggio che avvisa l'utente che ha perso la partita
+                document.getElementById("punteggio-finale").innerHTML = 
+                `Hai cliccato su una bomba! Peccato, hai perso.<br>
+                Hai totalizzato ${contatoreClick} punti, prima di morire.`;
                 
             } else {
                 // altrimenti coloro solo la casella cliccata
                 nuovaCella.classList.add("cliccata");
+
+                // solo quando il click è sulla casella senza bomba, incremento il punteggio
+                contatoreClick++;
+
+                // se, inoltre, sono state cliccate tutte le caselle tranne le bombe, allora avviso l'utente che ha vinto
+                if (contatoreClick === (numCelle - arrayBombe.length)) {
+                    document.getElementById("punteggio-finale").innerHTML = `Complimenti! Hai scoperto tutte le caselle evitando le bombe. Hai vinto!`;
+                }
             }
 
         });        
