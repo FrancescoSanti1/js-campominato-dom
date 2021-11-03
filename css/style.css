@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    height: 100px;
+}
+
+main {
+    background-color: aquamarine;
+}
+
+#contenitore-celle {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    margin: 0 auto;
+    width: 600px;
+    height: 600px;
+}
+
+.cella {
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cella.facile {
+    width: 10%;
+    height: 10%;
+}
+
+.cella.medio {
+    width: calc(100% / 9);
+    height: calc(100% / 9);
+}
+
+.cella.difficile {
+    width: calc(100% / 7);
+    height: calc(100% / 7);
+}
+
+.cella.cliccata {
+    background-color: cornflowerblue;
+}
+
+.cella.cliccata .numero-cella {
+    color: white;
+}
