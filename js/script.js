@@ -52,9 +52,13 @@ function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
 
     let contatoreClick = 0;
     let giocoFinito = false;
+    const listaCelleCliccate = [];
 
     // creo un ciclo per:
     for (let i = 1; i <= numCelle; i++) {
+
+        // array che controlla le celle già cliccate
+        listaCelleCliccate.push(false);
 
         // generare il numero di celle corrispondenti al livello di difficoltà
         let nuovaCella = document.createElement("div");
@@ -98,9 +102,18 @@ function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
                     // altrimenti coloro solo la casella cliccata
                     nuovaCella.classList.add("cliccata");
 
-                    // solo quando il click è sulla casella senza bomba, incremento il punteggio
-                    contatoreClick++;
+                    // se la cella non è ancora stata cliccata,
+                    if (!listaCelleCliccate[i]) {
 
+                        // incremento il punteggio
+                        contatoreClick++;
+
+                        // e modifico il valore, per evitare che un nuovo click sulla stessa cella incrementi il punteggio
+                        listaCelleCliccate[i] = true;
+                    }
+
+                    console.log("valore contatore punteggio:", contatoreClick);
+                    
                     // se, inoltre, sono state cliccate tutte le caselle tranne le bombe, allora avviso l'utente che ha vinto
                     if (contatoreClick === (numCelle - arrayBombe.length)) {
                         document.getElementById("punteggio-finale").innerHTML = `Complimenti! Hai scoperto tutte le caselle evitando le bombe. Hai vinto!`;
