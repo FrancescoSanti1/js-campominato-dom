@@ -20,38 +20,36 @@
             // mostro il numero della cella cliccata
 
 
-// variabili globali
-let difficoltaUtente;
-
 // Chiedo all'utente con quale livello di difficoltà vuole giocare (facile, medio, difficile)
-// Salvo la risposta dell'utente
-difficoltaUtente = prompt("Scegli un livello di difficoltà (facile, medio, difficile)");
+// A seconda del livello scelto, creo la griglia con il numero di celle corrispondente
 
-// A seconda del livello scelto, creo un numero di celle corrispondente
-// Confronto il livello scelto dall'utente con i tre livelli di difficoltà
-if (difficoltaUtente === "facile") {
-
+document.getElementById("livello-facile").addEventListener("click", function() {
     const bombe = generaBombe(16, 100);
     console.log("Numeri bomba:", bombe);
     generaCampoMinato(100, "facile", bombe);
+});
 
-} else if (difficoltaUtente === "medio") {
-
+document.getElementById("livello-medio").addEventListener("click", function() {
     const bombe = generaBombe(16, 81);
     console.log("Numeri bomba:", bombe);
     generaCampoMinato(81, "medio", bombe);
+});
 
-} else if (difficoltaUtente === "difficile") {
-
+document.getElementById("livello-difficile").addEventListener("click", function() {
     const bombe = generaBombe(16, 49);
     console.log("Numeri bomba:", bombe);
     generaCampoMinato(49, "difficile", bombe);
-}
+});
+
 
 // Siccome devo ripetere le stesse istruzioni, creo una funzione per generare il campo minato
 function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
 
+    document.getElementById("contenitore-globale").innerHTML = `<div id="contenitore-celle"></div>`;
+
+
     let contatoreClick = 0;
+    let giocoFinito = false;
 
     // creo un ciclo per:
     for (let i = 1; i <= numCelle; i++) {
@@ -70,36 +68,43 @@ function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
         // agganciare a ogni cella l'evento "click"
         nuovaCella.addEventListener("click", function() {
 
-            // se la casella cliccata fa parte della lista delle bombe,
-            if (arrayBombe.includes(i)) {
+            if (!giocoFinito) {
 
-                // allora seleziono tutti i div che hanno la classe bomba e gli assegno la classe cliccata
-                let mostraBombe = document.querySelectorAll(".bomba");
-                console.log("mostraBombe selezione:", mostraBombe);
+                console.log(i);
+                // se la casella cliccata fa parte della lista delle bombe,
+                if (arrayBombe.includes(i)) {
 
-                for (let j = 0; j < mostraBombe.length; j++) {
-                    mostraBombe[j].classList.add("cliccata");
-                }
+                    // allora seleziono tutti i div che hanno la classe bomba e gli assegno la classe cliccata
+                    let mostraBombe = document.querySelectorAll(".bomba");
+                    console.log("mostraBombe selezione:", mostraBombe);
 
-                // visto che è stata cliccata la casella con la bomba, scrivo il messaggio che avvisa l'utente che ha perso la partita
-                document.getElementById("punteggio-finale").innerHTML = 
-                `Hai cliccato su una bomba! Peccato, hai perso.<br>
-                Hai totalizzato ${contatoreClick} punti, prima di morire.`;
-                
-            } else {
-                // altrimenti coloro solo la casella cliccata
-                nuovaCella.classList.add("cliccata");
+                    for (let j = 0; j < mostraBombe.length; j++) {
+                        mostraBombe[j].classList.add("cliccata");
+                    }
 
-                // solo quando il click è sulla casella senza bomba, incremento il punteggio
-                contatoreClick++;
+                    // visto che è stata cliccata la casella con la bomba, scrivo il messaggio che avvisa l'utente che ha perso la partita
+                    document.getElementById("punteggio-finale").innerHTML =
+                    `Hai cliccato su una bomba! Peccato, hai perso.<br>
+                    Hai totalizzato ${contatoreClick} punti, prima di morire.`;
 
-                // se, inoltre, sono state cliccate tutte le caselle tranne le bombe, allora avviso l'utente che ha vinto
-                if (contatoreClick === (numCelle - arrayBombe.length)) {
-                    document.getElementById("punteggio-finale").innerHTML = `Complimenti! Hai scoperto tutte le caselle evitando le bombe. Hai vinto!`;
+                    giocoFinito = true;
+
+                } else {
+                    // altrimenti coloro solo la casella cliccata
+                    nuovaCella.classList.add("cliccata");
+
+                    // solo quando il click è sulla casella senza bomba, incremento il punteggio
+                    contatoreClick++;
+
+                    // se, inoltre, sono state cliccate tutte le caselle tranne le bombe, allora avviso l'utente che ha vinto
+                    if (contatoreClick === (numCelle - arrayBombe.length)) {
+                        document.getElementById("punteggio-finale").innerHTML = `Complimenti! Hai scoperto tutte le caselle evitando le bombe. Hai vinto!`;
+                        giocoFinito = true;
+                    }
                 }
             }
+        });
 
-        });        
     }
 }
 

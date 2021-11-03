@@ -5,13 +5,35 @@
 }
 
 header {
-    height: 100px;
-    padding: 10px 0;
+    padding: 10px 0 30px;
     text-align: center;
+}
+
+section h3 {
+    text-align: center;
+    font-weight: normal;
+}
+
+#pulsanti {
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    background-color: lightskyblue;
+    margin: 10px 10px 20px;
+    border-radius: 5px;
+    padding: 3px 5px;
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
 main {
     background-color: aquamarine;
+}
+
+#contenitore-globale {
+    min-height: 500px;
 }
 
 #contenitore-celle {
