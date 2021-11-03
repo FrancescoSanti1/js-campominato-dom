@@ -45,7 +45,9 @@ document.getElementById("livello-difficile").addEventListener("click", function(
 // Siccome devo ripetere le stesse istruzioni, creo una funzione per generare il campo minato
 function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
 
-    document.getElementById("contenitore-globale").innerHTML = `<div id="contenitore-celle"></div>`;
+    document.getElementById("contenitore-globale").innerHTML = `
+    <div id="contenitore-celle"></div>
+    <div id="punteggio-finale"></div>`;
 
 
     let contatoreClick = 0;
@@ -68,9 +70,11 @@ function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
         // agganciare a ogni cella l'evento "click"
         nuovaCella.addEventListener("click", function() {
 
+            // se la partita è finita, al click non succede più niente
             if (!giocoFinito) {
 
                 console.log(i);
+
                 // se la casella cliccata fa parte della lista delle bombe,
                 if (arrayBombe.includes(i)) {
 
@@ -87,6 +91,7 @@ function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
                     `Hai cliccato su una bomba! Peccato, hai perso.<br>
                     Hai totalizzato ${contatoreClick} punti, prima di morire.`;
 
+                    // la partita è finita, perché ho cliccato su una bomba
                     giocoFinito = true;
 
                 } else {
@@ -99,6 +104,8 @@ function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
                     // se, inoltre, sono state cliccate tutte le caselle tranne le bombe, allora avviso l'utente che ha vinto
                     if (contatoreClick === (numCelle - arrayBombe.length)) {
                         document.getElementById("punteggio-finale").innerHTML = `Complimenti! Hai scoperto tutte le caselle evitando le bombe. Hai vinto!`;
+                        
+                        // la partita è finita, perché ho scoperto tutte le caselle
                         giocoFinito = true;
                     }
                 }
