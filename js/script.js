@@ -31,25 +31,25 @@ difficoltaUtente = prompt("Scegli un livello di difficoltà (facile, medio, diff
 // Confronto il livello scelto dall'utente con i tre livelli di difficoltà
 if (difficoltaUtente === "facile") {
 
-    generaCampoMinato(100, "facile");
     const bombe = generaBombe(16, 100);
     console.log("Numeri bomba:", bombe);
+    generaCampoMinato(100, "facile", bombe);
 
 } else if (difficoltaUtente === "medio") {
 
-    generaCampoMinato(81, "medio");
     const bombe = generaBombe(16, 81);
     console.log("Numeri bomba:", bombe);
+    generaCampoMinato(81, "medio", bombe);
 
 } else if (difficoltaUtente === "difficile") {
 
-    generaCampoMinato(49, "difficile");
     const bombe = generaBombe(16, 49);
     console.log("Numeri bomba:", bombe);
+    generaCampoMinato(49, "difficile", bombe);
 }
 
 // Siccome devo ripetere le stesse istruzioni, creo una funzione per generare il campo minato
-function generaCampoMinato(numCelle, livelloGioco) {
+function generaCampoMinato(numCelle, livelloGioco, arrayBombe) {
 
     // creo un ciclo per:
     for (let i = 1; i <= numCelle; i++) {
@@ -57,15 +57,33 @@ function generaCampoMinato(numCelle, livelloGioco) {
         // generare il numero di celle corrispondenti al livello di difficoltà
         let nuovaCella = document.createElement("div");
         nuovaCella.className = "cella " + livelloGioco;
+
+        if (arrayBombe.includes(i)) {
+            nuovaCella.classList.add("bomba");
+        }
+
         nuovaCella.innerHTML = `<div class="numero-cella">${i}</div>`;
         document.getElementById("contenitore-celle").append(nuovaCella);
 
         // agganciare a ogni cella l'evento "click"
         nuovaCella.addEventListener("click", function() {
 
-            // cambio lo sfondo della cella cliccata
-            // mostro il numero della cella cliccata
-            nuovaCella.classList.add("cliccata");
+            // se la casella cliccata fa parte della lista delle bombe,
+            if (arrayBombe.includes(i)) {
+                
+                // allora seleziono tutti i div che hanno la classe bomba e gli assegno la classe cliccata
+                let mostraBombe = document.querySelectorAll(".bomba");
+                console.log("mostraBombe selezione:", mostraBombe);
+
+                for (let j = 0; j < mostraBombe.length; j++) {
+                    mostraBombe[j].classList.add("cliccata");
+                }
+                
+            } else {
+                // altrimenti coloro solo la casella cliccata
+                nuovaCella.classList.add("cliccata");
+            }
+
         });        
     }
 }

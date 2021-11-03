@@ -47,6 +47,10 @@ main {
     background-color: cornflowerblue;
 }
 
-.cella.cliccata .numero-cella {
+.cella.cliccata .numero-cella, .cella.bomba-cliccata .numero-cella {
     color: white;
+}
+
+.cella.bomba.cliccata {
+    background-color: brown;
 }
